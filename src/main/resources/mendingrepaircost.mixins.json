@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.arona74.mendingrepaircost.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "mendingrepaircost.refmap.json",
+  "mixins": [
+    "ExperienceOrbEntityMixin",
+    "ItemStackMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
