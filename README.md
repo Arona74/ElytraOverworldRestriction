@@ -1,19 +1,33 @@
 # ElytraOverworldRestriction
 
-A Minecraft Fabric mod that restricts elytra behavior in the Overworld to gliding only, while maintaining normal functionality in other dimensions.
+A Minecraft Fabric mod that restricts elytra behavior in configured dimensions to gliding only, while maintaining normal functionality in other dimensions.
 
 ## Features
 
-- **Overworld Restrictions**: 
-  - No rocket-powered takeoffs or boosts
-  - No ground takeoffs (must jump from height to start gliding)
-  - Limited horizontal speed for realistic gliding
-  - Prevents upward momentum gain
+### **Gliding Modes**
+- **Classic Gliding**(default): Natural elytra physics without artificial speed restrictions, but still no powered flight
+- **Realistic Gliding**: Restrictive physics with speed caps and momentum limits for true gliding simulation
 
-- **Other Dimensions**: 
-  - Normal elytra behavior in the Nether, End, and custom dimensions
-  - Full rocket boost functionality maintained
-  - Standard takeoff mechanics preserved
+### **Dimension Control**
+- **Overworld**: Always restricted (core functionality)
+- **Nether**: Optional restrictions (disabled by default)
+- **Other Dimensions**: Normal elytra behavior maintained (End, custom dimensions)
+
+### **Universal Restrictions** (Both Modes)
+- No rocket-powered boosts (fireworks blocked while flying)
+- No ground takeoffs (must jump from height to start gliding)
+- Chest slot and trinket slot elytra support
+
+### **Mode Differences**
+**Classic Gliding:**
+- Natural horizontal speeds allowed
+- Natural momentum physics
+- More responsive flight feel
+
+**Realistic Gliding:**
+- Maximum horizontal speed: 0.6 blocks/tick
+- No upward momentum allowed
+- Feels restrictive and realistic
 
 ## Installation
 
@@ -22,45 +36,83 @@ A Minecraft Fabric mod that restricts elytra behavior in the Overworld to glidin
 - [Fabric Loader](https://fabricmc.net/use/installer/) 0.14.21 or higher
 - [Fabric API](https://modrinth.com/mod/fabric-api) 0.87.0+1.20.1 or higher
 
+### Optional Dependencies
+- [ModMenu](https://modrinth.com/mod/modmenu) 7.0.0+ - For in-game configuration
+- [Cloth Config](https://modrinth.com/mod/cloth-config) 11.0.0+ - For configuration GUI
+- [Trinkets](https://modrinth.com/mod/trinkets) 3.7.0+ - For elytra slot support
+
 ### Steps
 1. Download the latest release from the [Releases](../../releases) page
 2. Place the `.jar` file in your Minecraft `mods` folder
 3. Ensure Fabric API is also installed in your `mods` folder
 4. Launch Minecraft with the Fabric profile
 
-## Usage
-
-Once installed, the mod automatically applies restrictions:
-
-- **In the Overworld**: Elytra functions as a pure glider
-  - Jump from heights to begin gliding
-  - Use firework rockets for visual effects only (no boost)
-  - Natural physics for realistic flight
-
-- **In other dimensions**: Full elytra functionality as normal
-  - Rocket boosts work as expected
-  - Ground takeoffs allowed
-  - No speed limitations
-
 ## Configuration
 
-Currently, the mod uses hardcoded values for optimal gameplay:
-- Maximum horizontal speed: 2.0 blocks/tick
-- Upward velocity dampening: 90% reduction
+### **In-Game Configuration** (Requires ModMenu + Cloth Config)
+1. Open the Mods menu from the main screen or pause menu
+2. Find "ElytraOverworldRestriction" and click the config button
+3. Adjust settings:
+   - **Enable in Nether**: Extend restrictions to Nether dimension
+   - **Realistic Gliding**: Toggle between realistic and classic gliding modes
+4. Changes apply immediately without restart
 
-Future versions may include a configuration file for customization.
+### **Manual Configuration**
+Edit `config/elytraoverworldrestriction.json`:
+```json
+{
+  "enableInNether": false,
+  "realisticGliding": false
+}
+```
+
+Configuration changes are detected automatically and apply immediately.
+
+## Usage
+
+### **Restricted Dimensions** (Overworld + optionally Nether)
+- Jump from heights to begin gliding
+- Use firework rockets for visual effects only (no boost)
+- Experience either realistic or classic gliding physics based on config
+
+### **Unrestricted Dimensions** (End, custom dimensions)
+- Full elytra functionality as normal
+- Rocket boosts work as expected
+- Ground takeoffs allowed
+- No speed limitations
 
 ## Compatibility
 
+### **Elytra Slot Support**
+Automatically detects elytra in both:
+- Vanilla chest armor slot
+- Trinket slots (via Trinkets mod)
+
+### **Technical Compatibility**
 - **Client/Server**: Works on both single-player and multiplayer
 - **Performance**: Minimal impact using efficient server tick events
-- **Mod Compatibility**: Built-in Trinket compatibility (for Elytra Slot), should work with most other mods.
+- **Mod Compatibility**: Should work with most other mods
+- **Version Support**: Minecraft 1.20.1, Fabric Loader 0.14.21+
 
 ### Technical Details
-The mod uses Fabric's `ServerTickEvents` to monitor player movement and applies velocity modifications when:
-- Player is in the Overworld dimension
-- Player is currently fall-flying (using elytra)
-- Player has an elytra equipped in chest slot or Trinket slot
+- Uses Fabric's `ServerTickEvents` for velocity monitoring
+- Uses `UseItemCallback` for firework blocking
+- Employs reflection for optional Trinkets integration
+- Implements live config reloading via file timestamp monitoring
+
+## Changelog
+
+### Version 1.0.0
+- Initial release
+- Configurable gliding modes (realistic vs classic)
+- Optional Nether restrictions
+- Trinkets API support for elytra slots
+- ModMenu integration with live config reloading
+- Full compatibility with vanilla and modded elytra
+
+## Known Issues
+
+- None currently reported
 
 ## License
 
@@ -83,4 +135,4 @@ Created by **Arona74**
 
 ---
 
-*Enjoy more balanced elytra gameplay in the Overworld while keeping the freedom to soar in other dimensions!*
+*Transform your elytra experience with configurable gliding physics while preserving the freedom to soar in other dimensions!*
