@@ -4,17 +4,17 @@ A Minecraft Fabric mod that restricts elytra behavior in configured dimensions t
 
 ## Features
 
-### **Gliding Modes**
+### **Gliding Modes** (Server/Singleplayer)
 - **Classic Gliding**(default): Natural elytra physics without artificial speed restrictions, but still no powered flight
 - **Realistic Gliding**: Restrictive physics with speed caps and momentum limits for true gliding simulation
 
-### **Dimension Control**
+### **Dimension Control** (Server/Singleplayer)
 - **Overworld**: Always restricted (core functionality)
 - **Nether**: Optional restrictions (disabled by default)
 - **Other Dimensions**: Normal elytra behavior maintained (End, custom dimensions)
 
-### **Elytra rendering**
-- **Hide Elytra on ground** (default): Make the elytra invisible while on ground for nice visual when using chestplate at same time
+### **Elytra rendering** (Client)
+- **Hide Elytra when not actively using it** (default): Make the elytra invisible while on ground/falling/jumping for nice visual when using chestplate at same time
 
 ### **Universal Restrictions** (Both Modes)
 - No rocket-powered boosts (fireworks blocked while flying)
