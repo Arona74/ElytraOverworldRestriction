@@ -7,14 +7,12 @@ import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 public class ElytraOverworldRestrictionClient implements ClientModInitializer {
-    
+   
     @Override
     public void onInitializeClient() {
         // Load config on client side
         ElytraConfig.getInstance();
-        
-        // Elytra rendering is handled by the mixin (ElytraFeatureRendererMixin)
-        
-        System.out.println("ElytraOverworldRestriction: Client-side initialized with elytra rendering mixin");
+       
+        System.out.println("ElytraOverworldRestriction: Client-side initialized successfully");
     }
 }

@@ -6,9 +6,10 @@
     "refmap": "elytraoverworldrestriction.refmap.json",
     "mixins": [],
     "client": [
-        "ElytraFeatureRendererMixin"
+        "ElytraFeatureRendererMixin",
+        "ElytraSlotLayerMixin"
     ],
     "injectors": {
-        "defaultRequire": 1
+        "defaultRequire": 0
     }
 }
