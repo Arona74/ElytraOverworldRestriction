@@ -7,12 +7,16 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.item.FireworkRocketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 
 public class ElytraOverworldRestriction implements ModInitializer {
     public static final String MOD_ID = "elytraoverworldrestriction";
@@ -22,7 +26,8 @@ public class ElytraOverworldRestriction implements ModInitializer {
     public void onInitialize() {
         // Initialize and load config (this will create the file if it doesn't exist)
         ElytraConfig config = ElytraConfig.getInstance();
-        System.out.println("ElytraOverworldRestriction: Config loaded - Nether: " + config.enableInNether + ", Realistic: " + config.realisticGliding);
+        System.out.println("ElytraOverworldRestriction: Config loaded - Nether: " + config.enableInNether + 
+            ", Realistic: " + config.realisticGliding + ", Invisible: " + config.invisibleOnGround);
         
         // Block firework usage while flying in restricted dimensions
         UseItemCallback.EVENT.register((player, world, hand) -> {
@@ -128,6 +133,8 @@ public class ElytraOverworldRestriction implements ModInitializer {
             // Prevent takeoff from ground - stop elytra immediately if on ground
             if (player.isOnGround() && player.isFallFlying()) {
                 player.stopFallFlying();
+                // Send a message to explain why (optional)
+                player.sendMessage(Text.literal("Elytra cannot take off from ground in " + getDimensionDisplayName(dimensionName) + "!"), false);
                 return;
             }
             
@@ -137,7 +144,7 @@ public class ElytraOverworldRestriction implements ModInitializer {
                     Vec3d velocity = player.getVelocity();
                     boolean modified = false;
                     
-                    // Strongly prevent upward momentum
+                    // Strongly prevent upward momentum (no rocket boost effect) 
                     if (velocity.y > 0.01) {
                         velocity = new Vec3d(velocity.x, Math.max(velocity.y * 0.1, -0.1), velocity.z);
                         modified = true;
@@ -161,5 +168,14 @@ public class ElytraOverworldRestriction implements ModInitializer {
                 // In classic mode - no velocity restrictions applied (fireworks still blocked)
             }
         }
+    }
+    
+    private String getDimensionDisplayName(String dimensionName) {
+        return switch (dimensionName) {
+            case "overworld" -> "Overworld";
+            case "the_nether" -> "Nether";
+            case "the_end" -> "End";
+            default -> dimensionName;
+        };
     }
 }

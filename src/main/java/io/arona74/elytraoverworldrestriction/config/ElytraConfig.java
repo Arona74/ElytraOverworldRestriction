@@ -16,6 +16,7 @@ public class ElytraConfig {
     // Config options
     public boolean enableInNether = false;
     public boolean realisticGliding = false;
+    public boolean invisibleOnGround = true;
     
     // Transient field for the singleton instance
     private static transient ElytraConfig instance;
@@ -36,10 +37,13 @@ public class ElytraConfig {
     }
     
     public static ElytraConfig load() {
+        ElytraConfig config = null;
+        
         if (CONFIG_FILE.exists()) {
             try (FileReader reader = new FileReader(CONFIG_FILE)) {
-                ElytraConfig config = GSON.fromJson(reader, ElytraConfig.class);
+                config = GSON.fromJson(reader, ElytraConfig.class);
                 if (config != null) {
+                    System.out.println("ElytraOverworldRestriction: Config loaded from file");
                     return config;
                 }
             } catch (IOException e) {
@@ -47,10 +51,11 @@ public class ElytraConfig {
             }
         }
         
-        // Return default config if file doesn't exist or failed to load
-        ElytraConfig defaultConfig = new ElytraConfig();
-        defaultConfig.save();
-        return defaultConfig;
+        // Create default config if file doesn't exist or failed to load
+        System.out.println("ElytraOverworldRestriction: Creating default config file");
+        config = new ElytraConfig();
+        config.save();
+        return config;
     }
     
     public void save() {

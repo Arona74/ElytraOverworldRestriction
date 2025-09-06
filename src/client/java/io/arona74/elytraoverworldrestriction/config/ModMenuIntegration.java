@@ -29,7 +29,7 @@ public class ModMenuIntegration implements ModMenuApi {
             general.addEntry(entryBuilder
                 .startBooleanToggle(Text.literal("Enable in Nether"), config.enableInNether)
                 .setDefaultValue(false)
-                .setTooltip(Text.literal("Enable elytra restrictions in the Nether dimension too"))
+                .setTooltip(Text.literal("Enable elytra restrictions in the Nether dimension"))
                 .setSaveConsumer(value -> config.enableInNether = value)
                 .build());
             
@@ -37,8 +37,16 @@ public class ModMenuIntegration implements ModMenuApi {
             general.addEntry(entryBuilder
                 .startBooleanToggle(Text.literal("Realistic Gliding"), config.realisticGliding)
                 .setDefaultValue(true)
-                .setTooltip(Text.literal("Enable slower realistic gliding with velocity restrictions.\nDisable for classic gliding behavior."))
+                .setTooltip(Text.literal("Enable realistic gliding with velocity restrictions.\nDisable for classic gliding behavior."))
                 .setSaveConsumer(value -> config.realisticGliding = value)
+                .build());
+            
+            // Invisible on ground option
+            general.addEntry(entryBuilder
+                .startBooleanToggle(Text.literal("Invisible on Ground"), config.invisibleOnGround)
+                .setDefaultValue(false)
+                .setTooltip(Text.literal("Make elytra invisible when player is on ground.\nElytra only appears when actively gliding."))
+                .setSaveConsumer(value -> config.invisibleOnGround = value)
                 .build());
             
             builder.setSavingRunnable(() -> {

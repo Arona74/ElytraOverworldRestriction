@@ -1,0 +1,14 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "io.arona74.elytraoverworldrestriction.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "refmap": "elytraoverworldrestriction.refmap.json",
+    "mixins": [],
+    "client": [
+        "ElytraFeatureRendererMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
